@@ -272,7 +272,7 @@ export default function Base64EncoderClient({ toolData = { name: 'Base64 Encoder
                             <textarea
                                 readOnly
                                 value={fileBase64}
-                                className="w-full h-32 bg-background border border-border rounded-lg p-3 font-code text-13 text-textPrimary custom-scrollbar focus:outline-none focus:border-accent transition-colors resize-y"
+                                className="w-full h-32 bg-background border border-border rounded-lg p-3 font-code text-13 text-textPrimary custom-scrollbar focus:outline-none focus:border-accent transition-colors resize-y break-all whitespace-pre-wrap"
                             />
 
                             <div className="flex flex-wrap gap-3 mt-2">
