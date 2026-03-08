@@ -14,13 +14,15 @@ const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
   subsets: ["latin"],
 });
-
 export const metadata: Metadata = {
   title: "ApexApps.in - Free Developer Tools",
   description: "10 essential tools for frontend and backend developers. Zero Data Uploaded. Ever.",
   verification: {
     google: "NhW9lliOVcqlIDl7zLzj268RuxV8hNfIi83ZbboYHs0",
   },
+  other: {
+    "google-adsense-account": "ca-pub-7407044476086851"
+  }
 };
 
 export default function RootLayout({
