@@ -410,7 +410,7 @@ export default function Base64EncoderClient({ toolData = { name: 'Base64 Encoder
     );
 
     return (
-        <div className="flex flex-col w-full h-full">
+        <div className="flex flex-col w-full h-full pt-16 md:pt-20">
             {customHeader}
 
             {activeTab === 'text' ? (
@@ -429,6 +429,7 @@ export default function Base64EncoderClient({ toolData = { name: 'Base64 Encoder
                     optionsPanel={getOptionsPanel()}
                     tabs={tabsData}
                     errorBanner={errorBanner}
+                    noPaddingTop={true}
                     customStats={
                         <div className="flex items-center gap-4">
                             <span>{new Blob([textInput]).size} B in</span>

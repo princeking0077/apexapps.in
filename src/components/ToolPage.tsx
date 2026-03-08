@@ -50,6 +50,7 @@ export interface ToolPageProps {
     customOutputComponent?: React.ReactNode;
     customStats?: React.ReactNode;
     errorBanner?: React.ReactNode;
+    noPaddingTop?: boolean;
 }
 
 export function formatBytes(b: number) {
@@ -84,6 +85,7 @@ export default function ToolPage({
     customOutputComponent,
     customStats,
     errorBanner,
+    noPaddingTop = false,
 }: ToolPageProps) {
     const [showOptions, setShowOptions] = useState(false);
     const [activeTab, setActiveTab] = useState(tabs.length > 0 ? tabs[0].id : '');
@@ -175,7 +177,7 @@ export default function ToolPage({
     const finalBreadcrumbs = breadcrumbs.length > 0 ? breadcrumbs : defaultBreadcrumbs;
 
     return (
-        <div className="w-full flex flex-col pt-16 md:pt-20 min-h-screen bg-background">
+        <div className={`w-full flex flex-col ${noPaddingTop ? '' : 'pt-16 md:pt-20'} min-h-screen bg-background`}>
             {/* Global Tool View Styles injected directly for precise matching */}
             <style dangerouslySetInnerHTML={{
                 __html: `
