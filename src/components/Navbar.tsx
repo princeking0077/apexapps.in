@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Search, Github, Menu, X, TerminalSquare, SearchCode, Database, Paintbrush, Binary, Clock, Palette, Key, Timer, Code, Braces } from 'lucide-react';
+import { Search, Github, Menu, X, TerminalSquare, SearchCode, Database, Paintbrush, Binary, Clock, Palette, Key, Timer, Code, Braces, Download } from 'lucide-react';
 import { Command } from 'cmdk';
 
-const CATEGORIES = ['Formatters', 'Encoders', 'Converters', 'Validators', 'Builders'];
+const CATEGORIES = ['Formatters', 'Encoders', 'Converters', 'Validators', 'Builders', 'Downloaders'];
 
 // Using the same data structure from ToolsGrid for search
 const ALL_TOOLS = [
@@ -18,7 +18,8 @@ const ALL_TOOLS = [
     { name: "Color Tools", slug: "color-tools", category: "Converter", icon: Palette },
     { name: "JWT Decoder", slug: "jwt-decoder", category: "Encoder", icon: Key },
     { name: "Timestamp Converter", slug: "timestamp-converter", category: "Converter", icon: Timer },
-    { name: "HTML Formatter", slug: "html-formatter", category: "Formatter", icon: Code }
+    { name: "HTML Formatter", slug: "html-formatter", category: "Formatter", icon: Code },
+    { name: "Twitter GIF Downloader", slug: "twitter-gif-downloader", category: "Downloader", icon: Download }
 ];
 
 export default function Navbar() {

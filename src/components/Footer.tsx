@@ -11,6 +11,7 @@ const TOOL_LINKS = [
     { href: '/tools/cron-builder', label: 'Cron Builder' },
     { href: '/tools/regex-tester', label: 'Regex Tester' },
     { href: '/tools/html-formatter', label: 'HTML Formatter' },
+    { href: '/tools/twitter-gif-downloader', label: 'Twitter GIF Downloader' },
 ];
 
 const LEGAL_LINKS = [

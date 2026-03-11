@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Search, Braces, Paintbrush, Binary, Database, Clock, SearchCode, Palette, Key, Timer, Code } from 'lucide-react';
+import { Search, Braces, Paintbrush, Binary, Database, Clock, SearchCode, Palette, Key, Timer, Code, Download } from 'lucide-react';
 import ToolCard, { ToolCardProps } from './ToolCard';
 
-const FILTERS = ['All', 'Formatter', 'Encoder', 'Converter', 'Validator', 'Builder'];
+const FILTERS = ['All', 'Formatter', 'Encoder', 'Converter', 'Validator', 'Builder', 'Downloader'];
 
 const TOOLS_DATA: ToolCardProps[] = [
     {
@@ -79,6 +79,14 @@ const TOOLS_DATA: ToolCardProps[] = [
         description: "Beautify HTML with live preview pane",
         category: "Formatter",
         icon: <Code size={24} />,
+    },
+    {
+        name: "Twitter GIF Downloader",
+        slug: "twitter-gif-downloader",
+        description: "Save GIFs from Twitter/X as MP4 or GIF",
+        category: "Downloader",
+        icon: <Download size={24} />,
+        isNew: true,
     }
 ];
 
