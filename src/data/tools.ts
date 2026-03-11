@@ -1,4 +1,4 @@
-export type ToolCategory = 'Formatter' | 'Encoder' | 'Converter' | 'Validator' | 'Builder';
+export type ToolCategory = 'Formatter' | 'Encoder' | 'Converter' | 'Validator' | 'Builder' | 'Downloader';
 
 export interface Tool {
     id: string;
@@ -370,6 +370,54 @@ export const tools: Tool[] = [
             softwareVersion: '1.0',
             offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
             url: 'https://apexapps.in/tools/html-formatter'
+        }
+    },
+    {
+        id: 'twitter-gif-downloader',
+        slug: 'twitter-gif-downloader',
+        name: 'Twitter GIF Downloader',
+        tagline: 'Save GIFs from Twitter/X as MP4 or GIF Free',
+        description: 'Download GIFs from Twitter and X instantly. Save as MP4 or convert to animated GIF format. Free online Twitter GIF downloader — no login required. Works on Android, iPhone, and desktop.',
+        category: 'Downloader',
+        icon: '⬇️',
+        keywords: [
+            'twitter gif downloader',
+            'download gif from twitter',
+            'x gif downloader',
+            'save gif from twitter',
+            'twitter gif to mp4',
+            'download gif from tweet',
+            'twitter gif saver'
+        ],
+        searchVolume: 550000,
+        isNew: true,
+        relatedTools: [],
+        structuredData: {
+            '@context': 'https://schema.org',
+            '@type': 'WebApplication',
+            name: 'Twitter GIF Downloader',
+            url: 'https://apexapps.in/twitter-gif-downloader',
+            description: 'Free online tool to download GIFs from Twitter and X posts. Save as MP4 or convert to animated GIF format. No login required.',
+            applicationCategory: 'UtilitiesApplication',
+            operatingSystem: 'Web Browser',
+            browserRequirements: 'Requires JavaScript',
+            offers: {
+                '@type': 'Offer',
+                price: '0',
+                priceCurrency: 'USD'
+            },
+            author: {
+                '@type': 'Organization',
+                name: 'ApexApps',
+                url: 'https://apexapps.in'
+            },
+            featureList: [
+                'Download GIFs from Twitter and X',
+                'Save as MP4 or GIF format',
+                'No login required',
+                'Free to use',
+                'Works on mobile and desktop'
+            ]
         }
     }
 ];
