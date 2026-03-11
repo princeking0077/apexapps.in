@@ -1,15 +1,22 @@
 import { NextResponse } from 'next/server';
+import { exec } from 'child_process';
+import { promisify } from 'util';
 
-const BEARER_TOKEN = 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA';
+const execAsync = promisify(exec);
 
-async function getGuestToken() {
-    const res = await fetch('https://api.twitter.com/1.1/guest/activate.json', {
-        method: 'POST',
-        headers: { 'Authorization': BEARER_TOKEN }
-    });
-    if (!res.ok) throw new Error('Failed to fetch guest token');
-    const data = await res.json();
-    return data.guest_token;
+// Extract tweet ID from any Twitter/X URL
+function extractTweetId(url: string): string | null {
+    const match = url.match(/(?:twitter\.com|x\.com|mobile\.twitter\.com)\/(?:\w+)\/status\/(\d+)/i);
+    return match?.[1] || null;
+}
+
+// Run yt-dlp and get JSON metadata about the tweet
+async function getYtDlpInfo(tweetUrl: string) {
+    const { stdout } = await execAsync(
+        `yt-dlp --dump-json --no-playlist --no-warnings "${tweetUrl}" 2>/dev/null`,
+        { timeout: 30000 }
+    );
+    return JSON.parse(stdout.trim());
 }
 
 export async function POST(req: Request) {
@@ -17,60 +24,70 @@ export async function POST(req: Request) {
         const body = await req.json();
         const { url } = body;
 
-        if (!url) {
-            return NextResponse.json({ error: 'URL is required' }, { status: 400 });
+        if (!url || typeof url !== 'string') {
+            return NextResponse.json({ message: 'URL is required' }, { status: 400 });
         }
 
-        // Extract Tweet ID from URL (handles both twitter.com/x.com)
-        const match = url.match(/(?:twitter\.com|x\.com|[a-z0-9]+\.twitter\.com)\/(?:[a-zA-Z0-9_]+)\/status\/(\d+)/i);
-        if (!match || !match[1]) {
-            return NextResponse.json({ error: 'Invalid Twitter or X URL' }, { status: 400 });
+        const tweetId = extractTweetId(url.trim());
+        if (!tweetId) {
+            return NextResponse.json({ message: 'Invalid Twitter or X URL. Make sure it contains /status/ in the path.' }, { status: 400 });
         }
-        const tweetId = match[1];
 
-        // Authorize with Twitter as a guest
-        const guestToken = await getGuestToken();
+        const tweetUrl = `https://x.com/i/status/${tweetId}`;
 
-        const tweetRes = await fetch(`https://api.twitter.com/1.1/statuses/show/${tweetId}.json?tweet_mode=extended`, {
-            headers: {
-                'Authorization': BEARER_TOKEN,
-                'x-guest-token': guestToken
-            }
-        });
-
-        if (!tweetRes.ok) {
+        let info: any;
+        try {
+            info = await getYtDlpInfo(tweetUrl);
+        } catch (e: any) {
+            // yt-dlp failed - tweet has no video or is private
             return NextResponse.json({
-                error: 'Failed to fetch tweet. The account might be private or the post was deleted.'
-            }, { status: tweetRes.status });
+                media: [],
+                message: 'No downloadable media found in this tweet. It may contain only text, or be from a private account.'
+            }, { status: 200 });
         }
 
-        const tweetData = await tweetRes.json();
+        const media: any[] = [];
 
-        // Locate media from the tweet entity
-        const mediaItems = tweetData.extended_entities?.media || [];
+        if (info && info.formats && info.formats.length > 0) {
+            // Get all MP4 formats sorted by bitrate (highest first)
+            const mp4Formats = (info.formats as any[])
+                .filter(f => f.ext === 'mp4' && f.url)
+                .sort((a, b) => (b.tbr || b.vbr || 0) - (a.tbr || a.vbr || 0));
 
-        const extractedMedia = mediaItems
-            .filter((m: any) => m.type === 'video' || m.type === 'animated_gif')
-            .map((vid: any) => {
-                const variants = vid.video_info?.variants || [];
-                // Sort by highest bitrate to give the best quality MP4
-                const mp4s = variants
-                    .filter((v: any) => v.content_type === 'video/mp4')
-                    .sort((a: any, b: any) => (b.bitrate || 0) - (a.bitrate || 0));
-
-                return {
-                    type: vid.type,
-                    width: vid.sizes?.large?.w || 600,
-                    height: vid.sizes?.large?.h || 338,
-                    preview_url: vid.media_url_https,
-                    url: vid.media_url_https,
-                    mp4_url: mp4s.length > 0 ? mp4s[0].url : null
-                };
+            if (mp4Formats.length > 0) {
+                const best = mp4Formats[0];
+                media.push({
+                    type: 'video',
+                    width: best.width || info.width || 640,
+                    height: best.height || info.height || 360,
+                    preview_url: best.url,
+                    url: best.url,
+                    mp4_url: best.url,
+                    variants: mp4Formats.slice(0, 3).map((f: any) => ({
+                        url: f.url,
+                        width: f.width || 0,
+                        height: f.height || 0,
+                        bitrate: f.tbr || f.vbr || 0
+                    }))
+                });
+            }
+        } else if (info && info.url) {
+            // Single URL (common for GIFs)
+            media.push({
+                type: 'gif',
+                width: info.width || 600,
+                height: info.height || 338,
+                preview_url: info.url,
+                url: info.url,
+                mp4_url: info.url,
+                variants: []
             });
+        }
 
-        return NextResponse.json({ media: extractedMedia });
+        return NextResponse.json({ media });
+
     } catch (error: any) {
-        console.error("Twitter GIF Downloader Error:", error);
-        return NextResponse.json({ error: 'Failed to process the request. Try again later.' }, { status: 500 });
+        console.error('Twitter GIF API Error:', error);
+        return NextResponse.json({ message: 'An error occurred. Please try again.' }, { status: 500 });
     }
 }
