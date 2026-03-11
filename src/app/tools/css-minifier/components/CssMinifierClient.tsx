@@ -217,12 +217,43 @@ export default function CssMinifierClient() {
                     <p>
                         Our <strong>CSS Minifier</strong> strips out all unnecessary characters without changing the functionality of the stylesheets. It utilizes the industry-standard <code>clean-css</code> algorithm running entirely within your browser to instantly compress your code.
                     </p>
-                    <h3>Why use our CSS Tool?</h3>
-                    <ul>
-                        <li><strong>Lightning Fast, 100% Client-Side:</strong> No data is sent to a server. Processing multi-megabyte CSS files happens instantly on your own machine.</li>
-                        <li><strong>Two-Way Processing:</strong> You can completely minify your CSS to save bandwidth, or you can switch to <strong>Beautify</strong> mode to un-minify unreadable production CSS back into clean, heavily-indented code for debugging.</li>
-                        <li><strong>Advanced Optimizations:</strong> &quot;Aggressive&quot; level minification merges duplicate selectors, reorders properties, and safely merges media queries to squeeze out every byte of savings.</li>
-                    </ul>
+                    <h3>Why use our CSS Tool over others?</h3>
+                    <table className="w-full text-left border-collapse my-6 text-14 border border-border">
+                        <thead>
+                            <tr className="bg-surface2 text-textPrimary">
+                                <th className="border border-border p-3 font-bold">Feature</th>
+                                <th className="border border-border p-3 font-bold text-accent">ApexApps.in Minifier</th>
+                                <th className="border border-border p-3 font-bold">Typical Competitors</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td className="border border-border p-3 font-medium">Processing Method</td>
+                                <td className="border border-border p-3 text-success font-bold">100% Client-Side (Browser)</td>
+                                <td className="border border-border p-3 text-error">Backend Server Uploads</td>
+                            </tr>
+                            <tr>
+                                <td className="border border-border p-3 font-medium">Privacy</td>
+                                <td className="border border-border p-3 text-success font-bold">Complete (Data never leaves PC)</td>
+                                <td className="border border-border p-3 text-error">Unknown (Data logged remotely)</td>
+                            </tr>
+                            <tr>
+                                <td className="border border-border p-3 font-medium">Speed</td>
+                                <td className="border border-border p-3 text-success font-bold">Instant (&lt;50ms)</td>
+                                <td className="border border-border p-3">Slower (Network latency)</td>
+                            </tr>
+                            <tr>
+                                <td className="border border-border p-3 font-medium">Aggressive Optimization</td>
+                                <td className="border border-border p-3 text-success font-bold">Supported (Level 1 & 2)</td>
+                                <td className="border border-border p-3">Basic whitespace removal</td>
+                            </tr>
+                            <tr>
+                                <td className="border border-border p-3 font-medium">Ads & Popups</td>
+                                <td className="border border-border p-3 text-success font-bold">Zero Ads</td>
+                                <td className="border border-border p-3 text-error">Heavy & Intrusive</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             )
         },
@@ -314,6 +345,7 @@ export default function CssMinifierClient() {
             toolName={tool.name}
             toolType={tool.category}
             toolDescription={tool.description}
+            lastUpdated={tool.lastUpdated}
             inputLanguage="css"
             outputLanguage="css"
             input={input}

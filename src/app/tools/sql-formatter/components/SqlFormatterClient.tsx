@@ -4,6 +4,7 @@ import { useState, useCallback, useMemo } from 'react';
 import { format } from 'sql-formatter';
 import ToolPage from '@/components/ToolPage';
 import { AlertCircle, Database, GitMerge, Layers, Table2 } from 'lucide-react';
+import { getToolBySlug } from '@/data/tools';
 
 type Dialect = 'mysql' | 'postgresql' | 'sqlite' | 'transactsql' | 'plsql';
 type KeywordCase = 'upper' | 'lower' | 'preserve';
@@ -321,13 +322,38 @@ export default function SqlFormatterClient({ toolData = { name: 'SQL Formatter',
                     <p>
                         Our <strong>SQL Formatter</strong> parses your query and rewrites it with consistent indentation, keyword casing, and line breaks. It supports five major SQL dialects and runs entirely in your browser using the industry-standard <code>sql-formatter</code> library.
                     </p>
-                    <h3>Why use our SQL Formatter?</h3>
-                    <ul>
-                        <li><strong>Multi-Dialect Support:</strong> Format queries for MySQL, PostgreSQL, SQLite, SQL Server (T-SQL), and Oracle (PL/SQL) with dialect-aware parsing.</li>
-                        <li><strong>Query Analyzer:</strong> Instantly see how many tables, JOINs, and subqueries your query contains to gauge complexity at a glance.</li>
-                        <li><strong>100% Client-Side:</strong> Your SQL never leaves your browser. Paste production queries with sensitive data without worry.</li>
-                        <li><strong>Minify Mode:</strong> Compress SQL for embedding in code, configuration files, or API payloads.</li>
-                    </ul>
+                    <h3>Why use our SQL Formatter over alternatives?</h3>
+                    <table className="w-full text-left border-collapse my-6 text-14 border border-border">
+                        <thead>
+                            <tr className="bg-surface2 text-textPrimary">
+                                <th className="border border-border p-3 font-bold">Feature</th>
+                                <th className="border border-border p-3 font-bold text-accent">ApexApps.in Formatter</th>
+                                <th className="border border-border p-3 font-bold">Other Online Formatters</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td className="border border-border p-3 font-medium">Data Privacy</td>
+                                <td className="border border-border p-3 text-success font-bold">100% Client-Side (No server uploads)</td>
+                                <td className="border border-border p-3 text-error">Often sent to backend servers</td>
+                            </tr>
+                            <tr>
+                                <td className="border border-border p-3 font-medium">Dialect Support</td>
+                                <td className="border border-border p-3">MySQL, PostgreSQL, standard SQL, T-SQL, PL/SQL</td>
+                                <td className="border border-border p-3">Usually limited to standard SQL</td>
+                            </tr>
+                            <tr>
+                                <td className="border border-border p-3 font-medium">Query Analysis</td>
+                                <td className="border border-border p-3 text-success font-bold">Built-in (Counts JOINs, subqueries, tables)</td>
+                                <td className="border border-border p-3 text-error">Rarely included</td>
+                            </tr>
+                            <tr>
+                                <td className="border border-border p-3 font-medium">Cost & Ads</td>
+                                <td className="border border-border p-3 text-success font-bold">Completely Free, Zero Ads</td>
+                                <td className="border border-border p-3 text-error">Ad-supported or Fremium</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             )
         },
@@ -417,6 +443,7 @@ LIMIT
             toolName="SQL Formatter"
             toolType="SQL Formatter"
             toolDescription={toolData.desc}
+            lastUpdated={getToolBySlug('sql-formatter')?.lastUpdated}
             inputLanguage="sql"
             outputLanguage="sql"
             input={input}

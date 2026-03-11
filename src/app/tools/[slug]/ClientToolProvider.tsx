@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import ToolPage from '@/components/ToolPage';
+import { getToolBySlug } from '@/data/tools';
 
 interface ClientToolProviderProps {
     slug: string;
@@ -74,6 +75,7 @@ export default function ClientToolProvider({ slug, toolData }: ClientToolProvide
             toolName={toolData.name}
             toolType={toolData.type}
             toolDescription={toolData.desc}
+            lastUpdated={getToolBySlug(slug)?.lastUpdated}
             inputLanguage={slug.includes('json') ? 'json' : slug.includes('css') ? 'css' : slug.includes('sql') ? 'sql' : slug.includes('html') ? 'html' : 'plaintext'}
             outputLanguage={slug.includes('json') ? 'json' : slug.includes('css') ? 'css' : slug.includes('sql') ? 'sql' : slug.includes('html') ? 'html' : 'plaintext'}
             input={input}

@@ -24,6 +24,7 @@ export interface ToolPageProps {
     toolName: string;
     toolType: string;
     toolDescription: string;
+    lastUpdated?: string;
     inputLanguage?: string;
     outputLanguage?: string;
     input: string;
@@ -65,6 +66,7 @@ export default function ToolPage({
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     toolType,
     toolDescription,
+    lastUpdated,
     inputLanguage = "javascript",
     outputLanguage = "javascript",
     input,
@@ -215,6 +217,11 @@ export default function ToolPage({
                         <p className="text-14 text-textSecondary leading-relaxed max-w-2xl">
                             {toolDescription}
                         </p>
+                        {lastUpdated && (
+                            <p className="text-12 text-textMuted mt-2 font-medium">
+                                Last Updated: {lastUpdated}
+                            </p>
+                        )}
                     </div>
 
                     {/* DYNAMIC HEADER ACTIONS (eg. Mode Toggle) */}

@@ -2,8 +2,9 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import ToolPage from '@/components/ToolPage';
-import { AlertCircle, Image as ImageIcon, FileText, Upload as UploadIcon, Copy, Code } from 'lucide-react';
+import { AlertCircle, Image as ImageIcon, FileText, Upload as UploadIcon, Copy, Code, Check } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { getToolBySlug } from '@/data/tools';
 
 interface Base64EncoderClientProps {
     toolData?: {
@@ -333,6 +334,38 @@ export default function Base64EncoderClient({ toolData = { name: 'Base64 Encoder
                         Standard Base64 contains the characters <code>+</code> and <code>/</code>, which have special meanings in URLs and file systems.
                         Our tool supports **URL-Safe Base64 Encoding** (RFC 4648), which replaces the <code>+</code> with <code>-</code> (minus) and <code>/</code> with <code>_</code> (underscore), while optionally removing the <code>=</code> padding at the end.
                     </p>
+                    <h3>Competitor Comparison</h3>
+                    <table className="w-full text-left border-collapse my-6 text-14 border border-border">
+                        <thead>
+                            <tr className="bg-surface2 text-textPrimary">
+                                <th className="border border-border p-3 font-bold">Feature</th>
+                                <th className="border border-border p-3 font-bold text-accent">ApexApps.in Encoder</th>
+                                <th className="border border-border p-3 font-bold">Standard Online Encoders</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td className="border border-border p-3 font-medium">Processing Method</td>
+                                <td className="border border-border p-3 text-success font-bold">100% Client-Side (Browser)</td>
+                                <td className="border border-border p-3 text-error">Backend Server Uploads</td>
+                            </tr>
+                            <tr>
+                                <td className="border border-border p-3 font-medium">Large File Support</td>
+                                <td className="border border-border p-3 text-success font-bold">Unlimited (Uses Browser Memory)</td>
+                                <td className="border border-border p-3 text-error">Limited by Server Upload Size</td>
+                            </tr>
+                            <tr>
+                                <td className="border border-border p-3 font-medium">Export Formats</td>
+                                <td className="border border-border p-3 text-success font-bold">Raw, Data URI, CSS url(), HTML &lt;img&gt;</td>
+                                <td className="border border-border p-3">Raw Only</td>
+                            </tr>
+                            <tr>
+                                <td className="border border-border p-3 font-medium">Ads & Popups</td>
+                                <td className="border border-border p-3 text-success font-bold">Zero Ads</td>
+                                <td className="border border-border p-3 text-error">Heavy & Intrusive</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             )
         },
@@ -418,6 +451,7 @@ export default function Base64EncoderClient({ toolData = { name: 'Base64 Encoder
                     toolName="Base64 Encoder & Decoder"
                     toolType="Base64 Converter"
                     toolDescription={toolData.desc}
+                    lastUpdated={getToolBySlug('base64-encoder')?.lastUpdated}
                     inputLanguage="plaintext"
                     outputLanguage="plaintext"
                     input={textInput}

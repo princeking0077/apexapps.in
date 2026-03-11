@@ -1,20 +1,8 @@
 import { MetadataRoute } from 'next';
+import { tools } from '@/data/tools';
 
 export default function sitemap(): MetadataRoute.Sitemap {
     const baseUrl = 'https://apexapps.in';
-
-    // Hardcoded list of all tools we've built
-    const tools = [
-        'css-minifier',
-        'base64-encoder',
-        'sql-formatter',
-        'cron-builder',
-        'regex-tester',
-        'color-tools',
-        'jwt-decoder',
-        'timestamp-converter',
-        'html-formatter',
-    ];
 
     const sitemapEntries: MetadataRoute.Sitemap = [
         {
@@ -51,8 +39,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     // Add all tools to the sitemap dynamically
     tools.forEach((tool) => {
+        // Handle special case for twitter-gif-downloader which might be at root
+        const isRootTool = tool.slug === 'twitter-gif-downloader';
+        const urlStr = isRootTool ? `${baseUrl}/${tool.slug}` : `${baseUrl}/tools/${tool.slug}`;
+
         sitemapEntries.push({
-            url: `${baseUrl}/tools/${tool}`,
+            url: urlStr,
             lastModified: new Date(),
             changeFrequency: 'weekly',
             priority: 0.9,

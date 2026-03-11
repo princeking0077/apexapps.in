@@ -43,6 +43,15 @@ export default function AboutPage() {
                 </section>
 
                 <section>
+                    <h2 className="text-20 font-bold text-textPrimary mb-3">Who Built This?</h2>
+                    <div className="bg-surface/50 border border-border rounded-xl p-5">
+                        <p>
+                            ApexApps.in is built and maintained by a <strong>senior software engineer with over 6+ years of experience</strong> building highly scalable frontend and backend systems. After repeatedly dealing with slow, ad-heavy, and privacy-invasive online tools, this platform was created to provide developers with a reliable, secure alternative.
+                        </p>
+                    </div>
+                </section>
+
+                <section>
                     <h2 className="text-20 font-bold text-textPrimary mb-3">Our tools</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         {TOOLS.map((tool) => (
@@ -65,6 +74,15 @@ export default function AboutPage() {
                             All processing happens locally using JavaScript in your browser. We don&rsquo;t have servers that touch your data. You can verify this at any time by opening DevTools &rarr; Network tab while using any tool &mdash; you&rsquo;ll see zero outgoing requests containing your data.
                         </p>
                     </div>
+                </section>
+
+                <section>
+                    <h2 className="text-20 font-bold text-textPrimary mb-3">Changelog & Updates</h2>
+                    <ul className="list-disc pl-5 space-y-2">
+                        <li><strong>March 2026:</strong> Added comprehensive SEO structure, including JSON-LD schemas and dynamic sitemaps.</li>
+                        <li><strong>February 2026:</strong> Launched the Twitter GIF Downloader tool.</li>
+                        <li><strong>January 2026:</strong> Platform launch with 10 essential developer tools fully built for the browser.</li>
+                    </ul>
                 </section>
 
                 <section>

@@ -12,6 +12,7 @@ export interface Tool {
     searchVolume: number;
     isPopular?: boolean;
     isNew?: boolean;
+    lastUpdated: string;
     relatedTools: string[];
     structuredData: object;
 }
@@ -39,6 +40,7 @@ export const tools: Tool[] = [
         ],
         searchVolume: 2328000,
         isPopular: true,
+        lastUpdated: 'March 10, 2026',
         relatedTools: ['html-formatter', 'sql-formatter', 'css-minifier'],
         structuredData: {
             '@context': 'https://schema.org',
@@ -75,6 +77,7 @@ export const tools: Tool[] = [
         ],
         searchVolume: 1294000,
         isPopular: true,
+        lastUpdated: 'March 09, 2026',
         relatedTools: ['jwt-decoder', 'json-formatter'],
         structuredData: {
             '@context': 'https://schema.org',
@@ -111,6 +114,7 @@ export const tools: Tool[] = [
         ],
         searchVolume: 1191000,
         isPopular: true,
+        lastUpdated: 'March 08, 2026',
         relatedTools: ['html-formatter', 'json-formatter', 'sql-formatter'],
         structuredData: {
             '@context': 'https://schema.org',
@@ -147,6 +151,7 @@ export const tools: Tool[] = [
         ],
         searchVolume: 1157000,
         isPopular: true,
+        lastUpdated: 'March 07, 2026',
         relatedTools: ['json-formatter', 'html-formatter', 'css-minifier'],
         structuredData: {
             '@context': 'https://schema.org',
@@ -182,6 +187,7 @@ export const tools: Tool[] = [
             'jwt decode without secret'
         ],
         searchVolume: 502000,
+        lastUpdated: 'March 06, 2026',
         relatedTools: ['base64-encoder', 'json-formatter'],
         structuredData: {
             '@context': 'https://schema.org',
@@ -217,6 +223,7 @@ export const tools: Tool[] = [
             'timestamp converter india'
         ],
         searchVolume: 995000,
+        lastUpdated: 'March 06, 2026',
         relatedTools: ['json-formatter', 'cron-builder'],
         structuredData: {
             '@context': 'https://schema.org',
@@ -253,6 +260,7 @@ export const tools: Tool[] = [
         ],
         searchVolume: 2310000,
         isPopular: true,
+        lastUpdated: 'March 05, 2026',
         relatedTools: ['css-minifier', 'html-formatter'],
         structuredData: {
             '@context': 'https://schema.org',
@@ -288,6 +296,7 @@ export const tools: Tool[] = [
             'crontab.guru alternative'
         ],
         searchVolume: 602000,
+        lastUpdated: 'March 04, 2026',
         relatedTools: ['timestamp-converter', 'regex-tester'],
         structuredData: {
             '@context': 'https://schema.org',
@@ -323,6 +332,7 @@ export const tools: Tool[] = [
             'test regex pattern'
         ],
         searchVolume: 475000,
+        lastUpdated: 'March 02, 2026',
         relatedTools: ['json-formatter', 'cron-builder'],
         structuredData: {
             '@context': 'https://schema.org',
@@ -358,6 +368,7 @@ export const tools: Tool[] = [
             'html email formatter'
         ],
         searchVolume: 1263000,
+        lastUpdated: 'March 01, 2026',
         relatedTools: ['css-minifier', 'json-formatter', 'sql-formatter'],
         structuredData: {
             '@context': 'https://schema.org',
@@ -391,6 +402,7 @@ export const tools: Tool[] = [
         ],
         searchVolume: 550000,
         isNew: true,
+        lastUpdated: 'March 11, 2026',
         relatedTools: [],
         structuredData: {
             '@context': 'https://schema.org',

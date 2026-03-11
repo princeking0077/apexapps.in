@@ -6,6 +6,7 @@ import { jsonrepair } from 'jsonrepair';
 import ToolPage from '@/components/ToolPage';
 import JsonTreeView from './JsonTreeView';
 import { AlertCircle, Wand2 } from 'lucide-react';
+import { getToolBySlug } from '@/data/tools';
 
 interface JsonFormatterClientProps {
     toolData?: {
@@ -201,6 +202,38 @@ export default function JsonFormatterClient({ toolData = { name: 'JSON Formatter
                         <li><strong>Alphabetical Key Sorting:</strong> Sort your JSON object keys alphabetically (recursively) for easier visual comparison and version control diffs.</li>
                         <li><strong>Monaco Editor Integration:</strong> Powered by the same editor that runs Visual Studio Code, giving you desktop-grade performance, searching, and keyboard shortcuts.</li>
                     </ul>
+                    <h3>Why Choose ApexApps.in vs Competitors?</h3>
+                    <table className="w-full text-left border-collapse my-6 text-14 border border-border">
+                        <thead>
+                            <tr className="bg-surface2 text-textPrimary">
+                                <th className="border border-border p-3 font-bold">Feature</th>
+                                <th className="border border-border p-3 font-bold text-accent">ApexApps.in Formatter</th>
+                                <th className="border border-border p-3 font-bold">Other Online Tools</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td className="border border-border p-3 font-medium">Data Security</td>
+                                <td className="border border-border p-3 text-success font-bold">100% Client-Side (No server uploads)</td>
+                                <td className="border border-border p-3 text-error">Backend Parsing (Risky for API keys)</td>
+                            </tr>
+                            <tr>
+                                <td className="border border-border p-3 font-medium">Auto-Fix Engine</td>
+                                <td className="border border-border p-3 text-success font-bold">Intelligent Repair included</td>
+                                <td className="border border-border p-3">Basic Validation only</td>
+                            </tr>
+                            <tr>
+                                <td className="border border-border p-3 font-medium">Large File Support</td>
+                                <td className="border border-border p-3 text-success font-bold">Optimized for Megabytes</td>
+                                <td className="border border-border p-3 text-error">Browser Freezes frequently</td>
+                            </tr>
+                            <tr>
+                                <td className="border border-border p-3 font-medium">Cost & Ads</td>
+                                <td className="border border-border p-3 text-success font-bold">Completely Free, Zero Ads</td>
+                                <td className="border border-border p-3 text-error">Ad-supported interface</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             )
         },
@@ -408,6 +441,7 @@ export default function JsonFormatterClient({ toolData = { name: 'JSON Formatter
             toolName="JSON Formatter & Validator"
             toolType="JSON Formatter"
             toolDescription={toolData.desc}
+            lastUpdated={getToolBySlug('json-formatter')?.lastUpdated}
             inputLanguage="json"
             outputLanguage={viewMode === 'Raw' ? 'plaintext' : 'json'}
             input={input}

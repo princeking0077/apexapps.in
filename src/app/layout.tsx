@@ -15,13 +15,30 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
 });
 export const metadata: Metadata = {
-  title: "ApexApps.in - Free Developer Tools",
+  title: {
+    default: "ApexApps.in - Free Developer Tools",
+    template: "%s | ApexApps.in"
+  },
   description: "10 essential tools for frontend and backend developers. Zero Data Uploaded. Ever.",
+  openGraph: {
+    title: "ApexApps.in - Free Developer Tools",
+    description: "10 essential tools for frontend and backend developers. Zero Data Uploaded. Ever.",
+    url: "https://apexapps.in",
+    siteName: "ApexApps.in",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ApexApps.in - Free Developer Tools",
+    description: "10 essential tools for frontend and backend developers. Zero Data Uploaded. Ever.",
+  },
   verification: {
     google: "NhW9lliOVcqlIDl7zLzj268RuxV8hNfIi83ZbboYHs0",
   },
   other: {
-    "google-adsense-account": "ca-pub-7407044476086851"
+    "google-adsense-account": "ca-pub-7407044476086851",
+    "geo.region": "IN"
   }
 };
 
@@ -33,6 +50,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossOrigin="anonymous" />
         <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7407044476086851"
