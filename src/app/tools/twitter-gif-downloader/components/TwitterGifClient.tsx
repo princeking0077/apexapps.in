@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from 'next/link';
 
-const API_ENDPOINT = "/api/twitter-gif";
+
 
 function isValidTweetUrl(url: string) {
     try {
@@ -21,9 +21,13 @@ function isValidTweetUrl(url: string) {
     }
 }
 
+const REDIRECT_URL = "https://twittervideodownloader.com/en/";
+const REDIRECT_DELAY = 15; // seconds
+
 export default function TwitterGifClient() {
     const [url, setUrl] = useState("");
     const [loading, setLoading] = useState(false);
+    const [countdown, setCountdown] = useState(0);
     const [error, setError] = useState("");
     const [mediaItems, setMediaItems] = useState<any[]>([]);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -46,61 +50,37 @@ export default function TwitterGifClient() {
 
         document.querySelectorAll(".tw-reveal").forEach((el) => revealObs.observe(el));
         return () => revealObs.disconnect();
-    }, [mediaItems]); // Re-run when media items change so results can animate
+    }, [mediaItems]);
 
-    const handleDownload = async () => {
+    const handleDownload = () => {
         const trimmedUrl = url.trim();
 
         if (!trimmedUrl) {
             setError("Please paste a Twitter or X post URL first.");
-            setMediaItems([]);
             return;
         }
         if (!isValidTweetUrl(trimmedUrl)) {
             setError(
                 'That doesn\'t look like a valid Twitter or X post URL. Make sure it includes "/status/" in the path. Example: https://x.com/user/status/1234567890'
             );
-            setMediaItems([]);
             return;
         }
 
-        setLoading(true);
         setError("");
-        setMediaItems([]);
+        setLoading(true);
+        setCountdown(REDIRECT_DELAY);
 
-        try {
-            const resp = await fetch(API_ENDPOINT, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ url: trimmedUrl }),
-            });
-
-            if (!resp.ok) {
-                const err = await resp.json().catch(() => ({}));
-                throw new Error(err.message || "Server error. Please try again.");
+        let remaining = REDIRECT_DELAY;
+        const timer = setInterval(() => {
+            remaining -= 1;
+            setCountdown(remaining);
+            if (remaining <= 0) {
+                clearInterval(timer);
+                window.open(REDIRECT_URL, "_blank");
+                setLoading(false);
+                setCountdown(0);
             }
-
-            const data = await resp.json();
-
-            if (!data.media || data.media.length === 0) {
-                setError(
-                    "No downloadable GIFs or media found in this tweet. The post may contain only text, or it may be from a private account."
-                );
-                return;
-            }
-
-            setMediaItems(data.media);
-        } catch (err: any) {
-            if (err.name === "TypeError" || String(err.message).includes("Failed to fetch")) {
-                // Network error — show demo UI in development if intended
-                setError("");
-                setMediaItems([{ type: "demo", width: 600, height: 338 }]);
-            } else {
-                setError(err.message || "Something went wrong. Please try again in a moment.");
-            }
-        } finally {
-            setLoading(false);
-        }
+        }, 1000);
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -112,24 +92,11 @@ export default function TwitterGifClient() {
     const convertToGif = async (mp4Url: string, idx: number) => {
         setConvertingIdx(idx);
         try {
-            const resp = await fetch("/api/convert-gif", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ mp4_url: mp4Url }),
-            });
-            if (!resp.ok) throw new Error("Conversion failed");
-            const blob = await resp.blob();
-            const a = document.createElement("a");
-            a.href = URL.createObjectURL(blob);
-            a.download = "twitter-gif-apexapps.gif";
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-
+            window.open(REDIRECT_URL, "_blank");
             setSuccessIdx(idx);
             setTimeout(() => setSuccessIdx(null), 3000);
         } catch {
-            alert("Conversion failed. Please try downloading as MP4.");
+            alert("Please try downloading using the opened page.");
         } finally {
             setConvertingIdx(null);
         }
@@ -261,9 +228,23 @@ export default function TwitterGifClient() {
                         {/* Result area */}
                         <div className="tw-result" aria-live="polite" aria-atomic="true">
                             {loading && (
-                                <div className="tw-status-bar" role="status" aria-live="polite">
-                                    <span className="tw-spinner" aria-hidden="true"></span>
-                                    <span>Analysing tweet and extracting media…</span>
+                                <div className="tw-status-bar" role="status" aria-live="polite" style={{ flexDirection: 'column', gap: '12px', padding: '20px 18px' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                        <span className="tw-spinner" aria-hidden="true"></span>
+                                        <span>Processing your request…</span>
+                                    </div>
+                                    <div style={{ width: '100%', background: 'rgba(255,255,255,0.07)', borderRadius: '999px', height: '6px', overflow: 'hidden' }}>
+                                        <div style={{
+                                            height: '100%',
+                                            borderRadius: '999px',
+                                            background: 'linear-gradient(90deg, var(--accent), #00dfd8)',
+                                            width: `${((REDIRECT_DELAY - countdown) / REDIRECT_DELAY) * 100}%`,
+                                            transition: 'width 0.9s linear'
+                                        }} />
+                                    </div>
+                                    <span style={{ fontSize: '0.8rem', color: 'var(--txt2)' }}>
+                                        Redirecting to download page in <strong style={{ color: 'var(--accent)' }}>{countdown}s</strong>…
+                                    </span>
                                 </div>
                             )}
 
