@@ -11,13 +11,26 @@ function extractTweetId(url: string): string | null {
 }
 
 // Run yt-dlp and get JSON metadata about the tweet
-async function getYtDlpInfo(tweetUrl: string) {
-    const { stdout } = await execAsync(
-        `yt-dlp --dump-json --no-playlist --no-warnings "${tweetUrl}" 2>/dev/null`,
-        { timeout: 30000 }
-    );
-    return JSON.parse(stdout.trim());
+// Returns null if no video found, throws for real errors
+async function getYtDlpInfo(tweetUrl: string): Promise<any | null> {
+    try {
+        const { stdout, stderr } = await execAsync(
+            `yt-dlp --dump-json --no-playlist --no-warnings "${tweetUrl}"`,
+            { timeout: 30000 }
+        );
+        const out = stdout.trim();
+        if (!out) return null;
+        return JSON.parse(out);
+    } catch (e: any) {
+        // exec throws on non-zero exit. Check stderr for "No video" messages
+        const errMsg = (e.stderr || e.message || '').toLowerCase();
+        if (errMsg.includes('no video') || errMsg.includes('not found') || errMsg.includes('does not exist') || errMsg.includes('parseint')) {
+            return null; // treat as no media
+        }
+        throw e; // real unexpected error
+    }
 }
+
 
 export async function POST(req: Request) {
     try {
